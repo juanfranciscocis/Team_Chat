@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget{
       title: 'Team Chat',
       theme: ThemeData.dark(
       ),
-      initialRoute: '/loading',
+      initialRoute: '/login',
       routes: screens,
     );
   }
