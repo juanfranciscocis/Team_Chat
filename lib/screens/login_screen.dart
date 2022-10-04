@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/widgets.dart';
+
+
 class LoginScreen extends StatelessWidget{
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -76,23 +79,18 @@ class _FormState extends State<_Form> {
       child: Container(
         child: Column(
           children:[
-            TextField(),
-            SizedBox(height: 20),
-            TextField(),
-            SizedBox(height: 20),
-            MaterialButton(
-              child: Text('Login', style: TextStyle(color: Colors.white)),
-              elevation: 0,
-              color: Colors.blue,
-              onPressed: (){},
-            )
 
+            CustomInputWidget()
+
+            //TODO: CREATE BUTTON
           ]
         ),
       ),
     );
   }
 }
+
+
 
 class _Labels extends StatelessWidget {
   const _Labels({
