@@ -14,11 +14,13 @@ class LoginScreen extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
 
-            Logo(), // MAIN LOGO
+            Logo(title: "Team Chat Login",), // MAIN LOGO
 
             _Form(),
 
-            Labels(),
+            Labels(
+              title: 'Create an account',
+              screen: 'register',),
 
             SizedBox(height: 50,),
             Text('Terms and Conditions', style: TextStyle(fontWeight: FontWeight.w200),),
