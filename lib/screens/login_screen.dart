@@ -82,16 +82,7 @@ class _FormState extends State<_Form> {
 
             //TODO: CREATE BUTTON
             MaterialButton(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue[400],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 15, left: 80, right: 80),
-                    child: Text('Login', style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
-                  ),
-                ),
+                child: login_button(text: 'Login'),
                 onPressed: (){
                   print(emailCtrl.text);
                   print(passCtrl.text);
@@ -102,6 +93,8 @@ class _FormState extends State<_Form> {
     );
   }
 }
+
+
 
 
 
