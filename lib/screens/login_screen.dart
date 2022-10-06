@@ -14,11 +14,11 @@ class LoginScreen extends StatelessWidget{
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
 
-            _Logo(), // MAIN LOGO
+            Logo(), // MAIN LOGO
 
             _Form(),
 
-            _Labels(),
+            Labels(),
 
             SizedBox(height: 50,),
             Text('Terms and Conditions', style: TextStyle(fontWeight: FontWeight.w200),),
@@ -36,31 +36,6 @@ class LoginScreen extends StatelessWidget{
 
 
 
-class _Logo extends StatelessWidget {
-  const _Logo({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 120),
-        child: Container(
-          width: 200,
-          child: Column(
-            children: [
-              Image(image: AssetImage('assets/tag-logo.png')),
-              SizedBox(height: 20),
-              Text('Team Chat', style: TextStyle(fontSize: 30)),
-            ],
-          ),
-
-        ),
-      ),
-    );
-  }
-}
 
 class _Form extends StatefulWidget {
   const _Form({
@@ -72,6 +47,11 @@ class _Form extends StatefulWidget {
 }
 
 class _FormState extends State<_Form> {
+
+  final emailCtrl = TextEditingController();
+  final passCtrl = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -80,9 +60,42 @@ class _FormState extends State<_Form> {
         child: Column(
           children:[
 
-            CustomInputWidget()
+            CustomInputWidget(
+              icon: Icons.alternate_email,
+              placeholder: 'Enter your email',
+              textController: emailCtrl,
+              keyboardType: TextInputType.emailAddress,
+              isPassword: false,
+            ),
+
+            SizedBox(height: 20,),
+
+            CustomInputWidget(
+              icon: Icons.lock,
+              placeholder: 'Enter your password',
+              textController: passCtrl,
+              keyboardType: TextInputType.visiblePassword,
+              isPassword: true,
+            ),
+
+            SizedBox(height: 40,),
 
             //TODO: CREATE BUTTON
+            MaterialButton(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blue[400],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 15, bottom: 15, left: 80, right: 80),
+                    child: Text('Login', style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                  ),
+                ),
+                onPressed: (){
+                  print(emailCtrl.text);
+                  print(passCtrl.text);
+            })
           ]
         ),
       ),
@@ -90,24 +103,5 @@ class _FormState extends State<_Form> {
   }
 }
 
-
-
-class _Labels extends StatelessWidget {
-  const _Labels({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          SizedBox(height: 20),
-          Text('Create an account', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
-        ],
-      ),
-    );
-  }
-}
 
 
