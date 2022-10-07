@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../models/models.dart';
 
@@ -12,6 +13,8 @@ class UsersScreen extends StatefulWidget{
 }
 
 class _UsersScreenState extends State<UsersScreen> {
+
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   final users = {
 
@@ -39,6 +42,8 @@ class _UsersScreenState extends State<UsersScreen> {
 
 
   };
+
+
 
 
   @override
@@ -69,30 +74,51 @@ class _UsersScreenState extends State<UsersScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ListView.separated(
-            itemBuilder: (context,index){
-              return ListTile(
-                title: Text(users.toList()[index].name),
-                subtitle: Text(users.toList()[index].email),
-                leading: CircleAvatar(
-                  child: Text(users.toList()[index].name.substring(0,2)),
-                  backgroundColor: Colors.blue[100],
-                ),
-                trailing: Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: users.toList()[index].online ? Colors.green : Colors.red,
-                    borderRadius: BorderRadius.circular(100)
-                  ),
-                ),
-              );
-            },
-            separatorBuilder: (context,index){
-              return const Divider();
-            },
-            itemCount: users.length),
+        child: SmartRefresher(
+            controller: _refreshController,
+            child: listViewUsers(),
+            enablePullDown: true,
+            onRefresh: _loadUsers,
+        ),
       )
     );
   }
+
+  ListView listViewUsers() {
+    return ListView.separated(
+          itemBuilder: (context,index){
+            return _userListTile(users.toList()[index]);
+          },
+          separatorBuilder: (context,index){
+            return const Divider();
+          },
+          itemCount: users.length);
+  }
+
+  ListTile _userListTile(User user) {
+    return ListTile(
+              title: Text(user.name),
+              subtitle: Text(user.email),
+              leading: CircleAvatar(
+                backgroundColor: Colors.blue[100],
+                child: Text(user.name.substring(0,2)),
+              ),
+              trailing: Container(
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(
+                  color: user.online ? Colors.green : Colors.red,
+                  borderRadius: BorderRadius.circular(100)
+                ),
+              ),
+            );
+  }
+
+  _loadUsers() async{
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
 }
