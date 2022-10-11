@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team_chat/widgets/widgets.dart';
 
 class ChatScreen extends StatefulWidget{
   const ChatScreen({Key? key}) : super(key: key);
@@ -12,6 +13,15 @@ class _ChatScreenState extends State<ChatScreen> {
   final _textController = TextEditingController();
   final _focusNode = FocusNode();
 
+  List<ChatMessageWidget> _messages = [
+    ChatMessageWidget(text: 'hoajjjajajajajajajajsndasjkdjkashdhjksajhkdkhjskahjdkjhahkjslahoajjjajajajajajajajsndasjkdjkashdhjksajhkdkhjskahjdkjhahkjsla', uid: '123'),
+    ChatMessageWidget(text: 'hoajjjajajajajajajajsndasjkdjkashdhjksajhkdkhjskahjdkjhahkjslahoajjjajajajajajajajsndasjkdjkashdhjksajhkdkhjskahjdkjhahkjsla', uid: ''),
+    ChatMessageWidget(text: 'hola', uid: '123'),
+    ChatMessageWidget(text: 'hola', uid: '123'),
+    ChatMessageWidget(text: 'hola', uid: ''),
+    ChatMessageWidget(text: 'hola', uid: ''),
+  ];
+
   bool _writting = false;
 
 
@@ -19,7 +29,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 5,
+        elevation: 10,
         backgroundColor: Color.fromRGBO(66, 125, 228, 1.0),
         title: Column(
           children:[
@@ -40,8 +50,12 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     reverse: true,
+                    itemCount: _messages.length,
                     itemBuilder: (context, index) {
-                      return Text('$index');
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: _messages[index],
+                      );
                     }
                 )
             ),
@@ -108,6 +122,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   String _handleSubmitted(String text){
     print(text);
+    ChatMessageWidget message = ChatMessageWidget(
+      text: text,
+      uid: '123',
+    );
+    _messages.insert(0, message);
     _focusNode.requestFocus();
     _textController.clear();
     setState(() {
