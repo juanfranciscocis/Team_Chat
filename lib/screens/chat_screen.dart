@@ -13,9 +13,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
   final _textController = TextEditingController();
   final _focusNode = FocusNode();
 
-  List<ChatMessageWidget> _messages = [
-
-  ];
+  final List<ChatMessageWidget> _messages = [];
 
   bool _writting = false;
 
@@ -129,6 +127,15 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
     setState(() {
       _writting = false;
     });
+  }
+
+  @override
+  void dispose() {
+    //TODO: off all the stream
+    for(ChatMessageWidget message in _messages){
+      message.animationController.dispose();
+    }
+    super.dispose();
   }
 
 }
