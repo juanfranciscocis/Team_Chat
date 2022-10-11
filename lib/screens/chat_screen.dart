@@ -8,18 +8,13 @@ class ChatScreen extends StatefulWidget{
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
 
   final _textController = TextEditingController();
   final _focusNode = FocusNode();
 
   List<ChatMessageWidget> _messages = [
-    ChatMessageWidget(text: 'hoajjjajajajajajajajsndasjkdjkashdhjksajhkdkhjskahjdkjhahkjslahoajjjajajajajajajajsndasjkdjkashdhjksajhkdkhjskahjdkjhahkjsla', uid: '123'),
-    ChatMessageWidget(text: 'hoajjjajajajajajajajsndasjkdjkashdhjksajhkdkhjskahjdkjhahkjslahoajjjajajajajajajajsndasjkdjkashdhjksajhkdkhjskahjdkjhahkjsla', uid: ''),
-    ChatMessageWidget(text: 'hola', uid: '123'),
-    ChatMessageWidget(text: 'hola', uid: '123'),
-    ChatMessageWidget(text: 'hola', uid: ''),
-    ChatMessageWidget(text: 'hola', uid: ''),
+
   ];
 
   bool _writting = false;
@@ -120,19 +115,22 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  String _handleSubmitted(String text){
+  void _handleSubmitted(String text){
+    if(text.length == 0) return;
     print(text);
     ChatMessageWidget message = ChatMessageWidget(
       text: text,
-      uid: '123',
+      uid: '123', animationController: AnimationController(vsync: this, duration: const Duration(milliseconds: 300)),
     );
     _messages.insert(0, message);
+    message.animationController.forward();
     _focusNode.requestFocus();
     _textController.clear();
     setState(() {
       _writting = false;
     });
-    return text;
   }
 
 }
+
+
