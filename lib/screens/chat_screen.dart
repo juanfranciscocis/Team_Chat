@@ -12,6 +12,8 @@ class _ChatScreenState extends State<ChatScreen> {
   final _textController = TextEditingController();
   final _focusNode = FocusNode();
 
+  bool _writting = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +71,13 @@ class _ChatScreenState extends State<ChatScreen> {
                   controller: _textController,
                   onSubmitted:_handleSubmitted,
                   onChanged: (String text){
-                    //TODO: When the user types something
+                    setState(() {
+                      if(text.trim().length > 0){
+                        _writting = true;
+                      }else{
+                        _writting = false;
+                      }
+                    });
                   },
                   decoration: const InputDecoration(
                       hintText: 'Send a message',
@@ -82,13 +90,14 @@ class _ChatScreenState extends State<ChatScreen> {
             //Button to send the message
             Container(
               //margin: const EdgeInsets.only(left: 5, right: 5),
-              child: IconButton(
-                //highlightColor: Colors.transparent,
-                //splashColor: Colors.transparent,
-                icon: const Icon(Icons.send_rounded, color: Colors.blue,),
-                onPressed: (){
-
-                }
+              child: IconTheme(
+                data: IconThemeData(color: Colors.blue[400]),
+                child: IconButton(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  icon: const Icon(Icons.send_rounded,),
+                  onPressed: _writting ? () => _handleSubmitted(_textController.text.trim()) : null,
+                ),
               ),
             )
           ]
@@ -101,6 +110,9 @@ class _ChatScreenState extends State<ChatScreen> {
     print(text);
     _focusNode.requestFocus();
     _textController.clear();
+    setState(() {
+      _writting = false;
+    });
     return text;
   }
 
