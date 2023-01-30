@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'screens/screens.dart';
 
-//hola
 void main() {
   runApp(const MyApp());
 }
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Team Chat',
       theme: ThemeData.dark(),
-      initialRoute: '/users',
+      initialRoute: '/login',
       routes: screens,
     );
   }
