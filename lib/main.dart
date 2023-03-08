@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:team_chat/services/auth_service.dart';
 
 import 'screens/screens.dart';
 
@@ -12,12 +14,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Team Chat',
-      theme: ThemeData.dark(),
-      initialRoute: '/login',
-      routes: screens,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (_) =>
+                AuthService()), // SINGLETON: SOLO UNA INSTANCIA DE ESTE SERVICIO EN TODO EL APLICATIVO
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Team Chat',
+        theme: ThemeData.dark(),
+        initialRoute: '/login',
+        routes: screens,
+      ),
     );
   }
 }
