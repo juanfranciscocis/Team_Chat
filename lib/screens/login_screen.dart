@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:team_chat/helpers/mostrar_alerta.dart';
 import 'package:team_chat/services/auth_service.dart';
 
 import '../widgets/widgets.dart';
@@ -88,13 +89,24 @@ class _FormState extends State<_Form> {
               child: login_button(text: 'Login'),
               onPressed: authService.autenticando
                   ? null
-                  : () {
+                  : () async {
                       FocusScope.of(context).unfocus();
                       //print(emailCtrl.text);
                       //print(passCtrl.text);
 
-                      authService.login(
+                      final loginOk = await authService.login(
                           emailCtrl.text.trim(), passCtrl.text.trim());
+
+                      if (loginOk) {
+                        //Navegar a la otra pantalla, main page
+                        Navigator.pushReplacementNamed(context, '/users');
+
+                        //TODO: Conectar a socket server
+                      } else {
+                        //Mostrar alerta
+                        mostrarAlerta(context, 'Login incorrecto',
+                            "Revise sus credenciales nuevamente");
+                      }
                     })
         ]),
       ),
