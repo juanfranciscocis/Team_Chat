@@ -54,6 +54,7 @@ class _FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Container(
@@ -85,13 +86,16 @@ class _FormState extends State<_Form> {
           //TODO: CREATE BUTTON
           MaterialButton(
               child: login_button(text: 'Login'),
-              onPressed: () {
-                //print(emailCtrl.text);
-                //print(passCtrl.text);
-                final authService =
-                    Provider.of<AuthService>(context, listen: false);
-                authService.login(emailCtrl.text.trim(), passCtrl.text.trim());
-              })
+              onPressed: authService.autenticando
+                  ? null
+                  : () {
+                      FocusScope.of(context).unfocus();
+                      //print(emailCtrl.text);
+                      //print(passCtrl.text);
+
+                      authService.login(
+                          emailCtrl.text.trim(), passCtrl.text.trim());
+                    })
         ]),
       ),
     );
