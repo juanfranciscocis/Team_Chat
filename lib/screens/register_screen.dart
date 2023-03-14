@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:team_chat/helpers/mostrar_alerta.dart';
 import 'package:team_chat/services/auth_service.dart';
 
+import '../services/socket_service.dart';
 import '../widgets/widgets.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -55,6 +56,7 @@ class _FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
+    final socketService = Provider.of<SocketService>(context);
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Container(
@@ -109,6 +111,7 @@ class _FormState extends State<_Form> {
                           emailCtrl.text.trim(),
                           passCtrl.text.trim());
                       if (registerOk == true.toString()) {
+                        socketService.connect();
                         Navigator.pushReplacementNamed(context, '/users');
                       } else {
                         mostrarAlerta(

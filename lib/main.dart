@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:team_chat/services/auth_service.dart';
+import 'package:team_chat/services/socket_service.dart';
 
 import 'screens/screens.dart';
 
@@ -16,9 +17,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(
             create: (_) =>
-                AuthService()), // SINGLETON: SOLO UNA INSTANCIA DE ESTE SERVICIO EN TODO EL APLICATIVO
+                SocketService()) // SINGLETON: SOLO UNA INSTANCIA DE ESTE SERVICIO EN TODO EL APLICATIVO
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
