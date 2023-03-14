@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Team Chat',
         theme: ThemeData.dark(),
-        initialRoute: '/login',
+        initialRoute: '/loading',
         routes: screens,
       ),
     );
