@@ -15,7 +15,6 @@ class LoadingScreen extends StatelessWidget {
       final autenticado = await authService.isLoggedIn();
       if (autenticado) {
         socketService.connect();
-        print('Conectado al socket');
         print(socketService.serverStatus);
         Navigator.pushReplacementNamed(context, '/users');
       } else {
