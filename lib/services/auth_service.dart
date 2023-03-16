@@ -13,6 +13,7 @@ import '../models/usuario.dart';
 class AuthService with ChangeNotifier {
   late UsuarioDb usuario;
   bool _autenticando = false;
+
   final _storage = new FlutterSecureStorage();
 
   //Getters and Setters
@@ -22,6 +23,8 @@ class AuthService with ChangeNotifier {
     this._autenticando = value;
     notifyListeners();
   }
+
+  UsuarioDb get usuarioDb => usuario;
 
   static Future<String?> getToken() async {
     final _storage = new FlutterSecureStorage();

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:team_chat/services/auth_service.dart';
 import 'package:team_chat/services/socket_service.dart';
+import 'package:team_chat/services/usuarios_service.dart';
 
 import '../models/usuario.dart';
 
@@ -15,18 +16,26 @@ class UsuariosPage extends StatefulWidget {
 class _UsuariosPageState extends State<UsuariosPage> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+  final usuariosService = UsuariosService();
+  List<UsuarioDb> usuarios = [];
 
-  final usuarios = [
-    UsuarioDb(uid: '1', nombre: 'María', email: 'test1@test.com', online: true),
-    UsuarioDb(
-        uid: '2', nombre: 'Melissa', email: 'test2@test.com', online: false),
-    UsuarioDb(
-        uid: '3', nombre: 'Fernando', email: 'test3@test.com', online: true),
-  ];
+  //final usuarios = [
+  //UsuarioDb(uid: '1', nombre: 'María', email: 'test1@test.com', online: true),
+  //UsuarioDb(
+  //uid: '2', nombre: 'Melissa', email: 'test2@test.com', online: false),
+  //UsuarioDb(
+  //  uid: '3', nombre: 'Fernando', email: 'test3@test.com', online: true),
+  //];
+
+  @override
+  void initState() {
+    this._cargarUsuarios();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context, listen: false);
+    final authService = Provider.of<AuthService>(context, listen: true);
     final socketService = Provider.of<SocketService>(context);
     return Scaffold(
         appBar: AppBar(
@@ -46,8 +55,8 @@ class _UsuariosPageState extends State<UsuariosPage> {
             Container(
               margin: EdgeInsets.only(right: 10),
               child: Icon(Icons.check_circle,
-                  color: socketService.serverStatus == ServerStatus.Online
-                      ? Colors.blue[400]
+                  color: authService.usuario.online
+                      ? Color.fromARGB(255, 77, 204, 185)
                       : Colors.red),
               // child: Icon( Icons.offline_bolt, color: Colors.red ),
             )
@@ -92,7 +101,10 @@ class _UsuariosPageState extends State<UsuariosPage> {
   }
 
   _cargarUsuarios() async {
-    await Future.delayed(Duration(milliseconds: 1000));
+    this.usuarios = await usuariosService.getUsuarios();
+    print(usuarios);
+    setState(() {});
+    //await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
