@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../services/chat_service.dart';
 import '../widgets/chat_message.dart';
 
 class ChatPage extends StatefulWidget {
@@ -20,19 +22,23 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final chatService = Provider.of<ChatService>(context);
+    final usuarioPara = chatService.usuarioPara;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 80, 128, 222),
         title: Column(
           children: <Widget>[
             CircleAvatar(
-              child: Text('Te', style: TextStyle(fontSize: 12)),
-              backgroundColor: Colors.blue[100],
+              child: Text(usuarioPara.nombre.substring(0, 2),
+                  style: TextStyle(fontSize: 12)),
+              backgroundColor: Color.fromARGB(255, 255, 255, 255),
               maxRadius: 14,
             ),
             SizedBox(height: 3),
-            Text('Melissa Flores',
-                style: TextStyle(color: Colors.black87, fontSize: 12))
+            Text(usuarioPara.nombre,
+                style: TextStyle(
+                    color: Color.fromARGB(221, 255, 255, 255), fontSize: 12))
           ],
         ),
         centerTitle: true,
@@ -53,7 +59,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
             // TODO: Caja de texto
             Container(
-              color: Colors.white,
+              color: Color.fromARGB(255, 80, 128, 222),
               child: _inputChat(),
             )
           ],
@@ -65,7 +71,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   Widget _inputChat() {
     return SafeArea(
         child: Container(
-      margin: EdgeInsets.symmetric(horizontal: 8.0),
+      margin: EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
         children: <Widget>[
           Flexible(
@@ -98,7 +104,8 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                 : Container(
                     margin: EdgeInsets.symmetric(horizontal: 4.0),
                     child: IconTheme(
-                      data: IconThemeData(color: Colors.blue[400]),
+                      data:
+                          IconThemeData(color: Color.fromARGB(255, 0, 50, 91)),
                       child: IconButton(
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:team_chat/services/auth_service.dart';
+import 'package:team_chat/services/chat_service.dart';
 import 'package:team_chat/services/socket_service.dart';
 
 import 'screens/screens.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(
             create: (_) =>
-                SocketService()) // SINGLETON: SOLO UNA INSTANCIA DE ESTE SERVICIO EN TODO EL APLICATIVO
+                SocketService()), // SINGLETON: SOLO UNA INSTANCIA DE ESTE SERVICIO EN TODO EL APLICATIVO
+        ChangeNotifierProvider(create: (_) => ChatService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

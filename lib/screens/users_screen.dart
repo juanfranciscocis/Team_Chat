@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:team_chat/services/auth_service.dart';
+import 'package:team_chat/services/chat_service.dart';
 import 'package:team_chat/services/socket_service.dart';
 import 'package:team_chat/services/usuarios_service.dart';
 
@@ -55,7 +56,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
             Container(
               margin: EdgeInsets.only(right: 10),
               child: Icon(Icons.check_circle,
-                  color: authService.usuario.online
+                  color: socketService.serverStatus == ServerStatus.Online
                       ? Color.fromARGB(255, 77, 204, 185)
                       : Colors.red),
               // child: Icon( Icons.offline_bolt, color: Colors.red ),
@@ -97,6 +98,12 @@ class _UsuariosPageState extends State<UsuariosPage> {
             color: usuario.online ? Colors.green[300] : Colors.red,
             borderRadius: BorderRadius.circular(100)),
       ),
+      onTap: () {
+        final ChatService chatService =
+            Provider.of<ChatService>(context, listen: false);
+        chatService.usuarioPara = usuario;
+        Navigator.pushNamed(context, '/chat');
+      },
     );
   }
 
