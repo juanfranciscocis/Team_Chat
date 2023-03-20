@@ -9,42 +9,48 @@ enum ServerStatus { Online, Offline, Connecting }
 
 class SocketService with ChangeNotifier {
   ServerStatus _serverStatus = ServerStatus.Connecting;
-  late IO.Socket socket;
+  late IO.Socket _socket = IO.io(Environments.socketUrl, {
+    'transports': ['websocket'],
+    'autoConnect': true,
+    'forceNew': true,
+    //'extraHeaders': {'x-token': token}
+  });
 
   ServerStatus get serverStatus => this._serverStatus;
-  void setServerStatus(ServerStatus status) {
-    this._serverStatus = status;
-    notifyListeners();
-  }
+
+  IO.Socket get socket => this._socket;
+  Function get emit => this._socket.emit;
 
   void connect() async {
+    print('Cliente conectado');
     final token = await AuthService.getToken();
+
     // Dart client
-    socket = IO.io(Environments.socketUrl, {
+
+    this._socket = IO.io(Environments.socketUrl, {
       'transports': ['websocket'],
       'autoConnect': true,
-      'forceNew': true, // Force to create a new socket
+      'forceNew': true,
       'extraHeaders': {
         'x-token': token,
       }
     });
 
-    socket.on('connection', (_) {
-      print('Conectado al socket');
-      setServerStatus(ServerStatus.Online);
+    this._socket.on('connect', (_) {
+      print('connect');
+      this._serverStatus = ServerStatus.Online;
       notifyListeners();
     });
 
-    socket.on('disconnect', (_) {
-      setServerStatus(ServerStatus.Offline);
+    this._socket.on('disconnect', (_) {
+      print('disconnect');
+      this._serverStatus = ServerStatus.Offline;
       notifyListeners();
     });
-
-    setServerStatus(ServerStatus.Online);
-    notifyListeners();
   }
 
   void disconnect() {
-    socket.disconnect();
+    print('Cliente desconectado');
+    this._socket.disconnect();
   }
 }
