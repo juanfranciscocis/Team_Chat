@@ -32,6 +32,8 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
         listen: false); //NUNCA SE PUEDE REDIBUJAR EL WIDGET EN EL INITSTATE
     socketService = Provider.of<SocketService>(context, listen: false);
     authService = Provider.of<AuthService>(context, listen: false);
+
+    this.socketService.socket.on('mensaje-personal', _escucharMensaje);
   }
 
   @override
@@ -170,6 +172,25 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
       message.animationController.dispose();
     }
 
+    this.socketService.socket.off('mensaje-personal');
+
     super.dispose();
+  }
+
+  _escucharMensaje(dynamic data) {
+    print("Tengo Mensaje $data");
+
+    ChatMessage message = new ChatMessage(
+      texto: data['mensaje'],
+      uid: data['de'],
+      animationController: AnimationController(
+          vsync: this, duration: Duration(milliseconds: 200)),
+    );
+
+    setState(() {
+      _messages.insert(0, message);
+    });
+
+    message.animationController.forward();
   }
 }
