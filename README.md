@@ -26,7 +26,7 @@ https://github.com/juanfranciscocis/Team_Chat_Server
 
 </p>
 
-#### Server running at [https://flutter-bands-socket-server-jc.herokuapp.com](https://flutter-voting-socket-server.herokuapp.com)
+#### Server running at https://flutter-team-chat-server.herokuapp.com
 <p float="left">
   <img src="https://github.com/juanfranciscocis/Realtime_Voting_App/blob/eb85da476bfe91c8412b2a366b045549cce0ca77/README%20FILES/Server/1.png"width="600"/>
   <img src="https://github.com/juanfranciscocis/Realtime_Voting_App/blob/eb85da476bfe91c8412b2a366b045549cce0ca77/README%20FILES/Server/2.png"width="600"/>
